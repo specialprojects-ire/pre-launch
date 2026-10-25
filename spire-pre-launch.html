@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>specialprojects_ire — Celebration & Vision</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Outfit & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#030814',
+                            dark: '#050b18',
+                            navy: '#0a192f',
+                            slate: '#112240',
+                            accent: '#00f5d4',
+                            cyan: '#3a86ff',
+                            purple: '#7300ff',
+                            pink: '#ff007f',
+                            gold: '#ffbe0b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background: radial-gradient(circle at 50% 0%, #0a192f 0%, #050b18 60%, #030814 100%);
+            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            color: #f8fafc;
+        }
+
+        .glass-card {
+            background: rgba(10, 25, 47, 0.68);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        .glass-nav {
+            background: rgba(3, 8, 20, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 245, 212, 0.15);
+        }
+
+        .glow-border {
+            position: relative;
+        }
+
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, #00f5d4, #3a86ff, #7300ff, #ff007f);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.25;
+            transition: opacity 0.3s ease;
+        }
+
+        .glow-border:hover::after {
+            opacity: 0.8;
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 30px rgba(0, 245, 212, 0.65);
+            transform: translateY(-2px);
+        }
+
+        canvas#fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030814;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0a192f;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f5d4;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col justify-between relative selection:bg-brand-accent selection:text-brand-deep">
+
+    <!-- Interactive Canvas Fireworks -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Main Content Layout -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- Navigation Bar -->
+        <nav class="glass-nav sticky top-0 z-30 px-4 lg:px-8 py-3.5 flex items-center justify-between">
+            <!-- Brand & Logo -->
+            <div class="flex items-center space-x-3">
+                <!-- Custom SVG Badge Logo -->
+                <div class="relative w-11 h-11 flex items-center justify-center rounded-xl bg-gradient-to-tr from-brand-deep via-brand-navy to-brand-slate border border-brand-accent/40 shadow-lg hover:scale-105 transition-transform duration-300">
+                    <svg class="w-8 h-8 text-brand-accent drop-shadow-[0_0_8px_rgba(0,245,212,0.6)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5" stroke="currentColor" stroke-width="4" fill="none"/>
+                        <path d="M30 40 L50 25 L70 40 L70 60 L50 75 L30 60 Z" stroke="#3a86ff" stroke-width="3" fill="none"/>
+                        <text x="50" y="56" font-family="'Outfit', sans-serif" font-weight="900" font-size="20" fill="#00f5d4" text-anchor="middle">IRE</text>
+                        <circle cx="50" cy="15" r="3" fill="#ff007f"/>
+                        <circle cx="82" cy="70" r="3" fill="#ffbe0b"/>
+                        <circle cx="18" cy="70" r="3" fill="#00f5d4"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-mono text-lg font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-brand-accent to-brand-cyan">
+                            specialprojects_ire
+                        </span>
+                        <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-brand-accent/20 border border-brand-accent/40 text-brand-accent rounded-full uppercase tracking-wider">
+                            Day 1 Launch
+                        </span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 font-medium tracking-wide">
+                        Special Projects — <span class="text-brand-accent">Innovate</span> • <span class="text-brand-cyan">Renovate</span> • <span class="text-purple-400">Educate</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center space-x-2.5">
+                <!-- Fireworks Manual Burst -->
+                <button onclick="triggerFireworksBurst()" class="px-3.5 py-2 rounded-xl glass-card hover:bg-white/10 transition-all text-brand-accent hover:text-white text-xs font-bold flex items-center space-x-2 border border-brand-accent/30 shadow-md">
+                    <i class="fa-solid fa-fireworks text-brand-gold"></i>
+                    <span class="hidden sm:inline">Launch Fireworks</span>
+                </button>
+
+                <!-- Audio Toggle -->
+                <button id="musicToggleBtn" onclick="toggleMusic(true)" class="px-3.5 py-2 rounded-xl glass-card hover:bg-white/10 transition-all text-slate-300 hover:text-white text-xs font-semibold flex items-center space-x-2 border border-white/10">
+                    <i id="musicIcon" class="fa-solid fa-volume-high text-brand-accent animate-pulse"></i>
+                    <span id="musicText" class="hidden md:inline">Celebration Audio</span>
+                </button>
+
+                <!-- Modal Trigger -->
+                <button onclick="openModal()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-accent to-brand-cyan text-brand-deep font-bold text-xs flex items-center space-x-2 btn-glow">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span class="hidden sm:inline">Add Shoutout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Company Launch Announcement Banner -->
+        <header class="container mx-auto px-4 pt-8 pb-4 text-center max-w-4xl">
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-card border border-brand-accent/40 text-brand-accent text-xs font-semibold uppercase tracking-widest mb-6 animate-pulse">
+                <i class="fa-solid fa-rocket"></i>
+                <span>Official Launch & Vision Celebration</span>
+            </div>
+            
+            <h1 class="font-display text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
+                Welcome to <br class="sm:hidden"/>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-accent via-cyan-300 to-brand-pink">
+                    specialprojects_ire
+                </span>
+            </h1>
+            
+            <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed mb-6">
+                Pioneering tomorrow's standard! We are built on three core pillars: innovating new systems, renovating standard practices, and educating future leaders.
+            </p>
+        </header>
+
+        <!-- Core Pillars Section -->
+        <section class="container mx-auto px-4 py-4 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- Pillar 1: Innovate -->
+                <div class="glass-card rounded-2xl p-5 glow-border relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/20 text-brand-accent flex items-center justify-center text-lg font-bold border border-brand-accent/30">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-white">INNOVATE</h3>
+                            <p class="text-[11px] text-brand-accent font-mono">Pioneering Ideas</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Challenging status quo with bold thinking, cutting-edge technology, and breakthrough engineering solutions.
+                    </p>
+                </div>
+
+                <!-- Pillar 2: Renovate -->
+                <div class="glass-card rounded-2xl p-5 glow-border relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-cyan/20 text-brand-cyan flex items-center justify-center text-lg font-bold border border-brand-cyan/30">
+                            <i class="fa-solid fa-cubes-stacked"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-white">RENOVATE</h3>
+                            <p class="text-[11px] text-brand-cyan font-mono">Modernizing Systems</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Transforming existing processes, optimizing workflows, and revitalizing infrastructure for maximum impact.
+                    </p>
+                </div>
+
+                <!-- Pillar 3: Educate -->
+                <div class="glass-card rounded-2xl p-5 glow-border relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-lg font-bold border border-purple-500/30">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-white">EDUCATE</h3>
+                            <p class="text-[11px] text-purple-300 font-mono">Empowering People</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Sharing knowledge, developing talent, and cultivating a community of continuous learning and growth.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Counter Section -->
+        <section class="container mx-auto px-4 py-4 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Metric 1: Team Members -->
+                <div class="glass-card rounded-2xl p-5 text-center glow-border">
+                    <div class="font-mono text-xs text-brand-accent uppercase tracking-wider mb-1">Founding Team</div>
+                    <div class="font-display text-3xl sm:text-4xl font-extrabold text-white flex items-center justify-center gap-1">
+                        <span class="counter" data-target="7">0</span>
+                        <span class="text-brand-accent">+</span>
+                    </div>
+                    <div class="text-xs text-slate-400 mt-1 font-medium">Team Members: 7+</div>
+                </div>
+
+                <!-- Metric 2: Project Ideas -->
+                <div class="glass-card rounded-2xl p-5 text-center glow-border">
+                    <div class="font-mono text-xs text-brand-cyan uppercase tracking-wider mb-1">Innovation Pipeline</div>
+                    <div class="font-display text-3xl sm:text-4xl font-extrabold text-white">Project Ideas: 1 Million+</div>
+                    <div class="text-xs text-slate-400 mt-1 font-medium">1M+ Ideas & Opportunities</div>
+                </div>
+
+                <!-- Metric 3: Days Since Inception -->
+                <div class="glass-card rounded-2xl p-5 text-center glow-border">
+                    <div class="font-mono text-xs text-purple-400 uppercase tracking-wider mb-1">Company Inception</div>
+                    <div class="font-display text-3xl sm:text-4xl font-extrabold text-white">DAY 1</div>
+                    <div class="text-xs text-slate-400 mt-1 font-medium">Days Since Inception</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inception Spotlight Quote Section -->
+        <section class="container mx-auto px-4 py-4 max-w-4xl">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden glow-border">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-accent flex items-center gap-2">
+                        <i class="fa-solid fa-quote-left text-sm"></i> Founding Vision Spotlight
+                    </span>
+                    <button onclick="getRandomQuote()" class="text-xs font-semibold px-3 py-1.5 rounded-lg glass-card hover:bg-white/10 transition-colors text-slate-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shuffle text-brand-accent"></i>
+                        <span>Next Quote</span>
+                    </button>
+                </div>
+
+                <div id="spotlightContainer" class="min-h-[130px] flex flex-col justify-between transition-all duration-300">
+                    <p id="spotlightText" class="font-display text-lg sm:text-2xl font-semibold leading-relaxed text-slate-100 italic">
+                        "Welcome to specialprojects_ire — Innovating the future, Renovating standard models, and Educating tomorrow's leaders."
+                    </p>
+                    <div class="mt-6 flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-white/10">
+                        <div>
+                            <h4 id="spotlightAuthor" class="font-bold text-white text-sm sm:text-base">specialprojects_ire Team</h4>
+                            <p id="spotlightRole" class="text-xs text-brand-accent">Founding Charter Statement</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span id="spotlightCategory" class="px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan">
+                                Inception & Vision
+                            </span>
+                            <button onclick="copySpotlightQuote()" class="p-2 rounded-lg glass-card hover:bg-white/10 text-slate-300 hover:text-white" title="Copy Quote">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quotes Grid & Filters -->
+        <section class="container mx-auto px-4 py-6 max-w-6xl flex-grow">
+            <!-- Search & Filters -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <!-- Category Filters -->
+                <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
+                    <button onclick="filterCategory('All')" class="filter-btn active-filter px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card bg-brand-accent/20 border-brand-accent text-brand-accent">
+                        All Launch Quotes
+                    </button>
+                    <button onclick="filterCategory('Inception & Vision')" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card text-slate-300 hover:text-white">
+                        Inception & Vision
+                    </button>
+                    <button onclick="filterCategory('Innovate')" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card text-slate-300 hover:text-white">
+                        Innovate
+                    </button>
+                    <button onclick="filterCategory('Renovate')" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card text-slate-300 hover:text-white">
+                        Renovate
+                    </button>
+                    <button onclick="filterCategory('Educate')" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card text-slate-300 hover:text-white">
+                        Educate
+                    </button>
+                    <button onclick="filterCategory('Team Spirit')" class="filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card text-slate-300 hover:text-white">
+                        Team Spirit
+                    </button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="searchInput" onkeyup="handleSearch()" placeholder="Search launch quotes..." class="w-full pl-9 pr-4 py-2 rounded-xl glass-card border border-white/10 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent transition-colors">
+                </div>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="quotesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-12">
+                <i class="fa-regular fa-compass text-4xl text-slate-500 mb-3"></i>
+                <p class="text-slate-400 font-medium text-sm">No quotes found matching your search.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="glass-nav mt-12 py-5 text-center text-xs text-slate-400">
+            <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center space-x-2">
+                    <span class="font-mono text-slate-200 font-bold">specialprojects_ire</span>
+                    <span>&bull;</span>
+                    <span>Innovate • Renovate • Educate</span>
+                </div>
+                <p class="text-slate-500 text-[11px]">&copy; 2026 specialprojects_ire. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Modal: Add Shoutout -->
+    <div id="quoteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-lg w-full relative border border-white/20 transform scale-95 transition-transform duration-300 shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center space-x-2.5 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-brand-accent/20 text-brand-accent flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-white">Add Launch Message</h3>
+            </div>
+            <p class="text-xs text-slate-300 mb-5">Share a foundational quote or launch message for specialprojects_ire!</p>
+
+            <form id="addQuoteForm" onsubmit="submitQuote(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Quote / Message *</label>
+                    <textarea id="modalText" required rows="3" placeholder="e.g. Innovating solutions from Day 1 at specialprojects_ire..." class="w-full px-3.5 py-2.5 rounded-xl glass-card border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent"></textarea>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Author / Name *</label>
+                        <input type="text" id="modalAuthor" required placeholder="e.g. Founding Team" class="w-full px-3.5 py-2.5 rounded-xl glass-card border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Role / Specialization</label>
+                        <input type="text" id="modalRole" placeholder="e.g. Innovation Lead" class="w-full px-3.5 py-2.5 rounded-xl glass-card border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Pillar / Category</label>
+                    <select id="modalCategory" class="w-full px-3.5 py-2.5 rounded-xl glass-card border border-white/10 text-xs text-white bg-brand-dark focus:outline-none focus:border-brand-accent">
+                        <option value="Inception & Vision">Inception & Vision</option>
+                        <option value="Innovate">Innovate</option>
+                        <option value="Renovate">Renovate</option>
+                        <option value="Educate">Educate</option>
+                        <option value="Team Spirit">Team Spirit</option>
+                    </select>
+                </div>
+                <div class="pt-3 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl glass-card hover:bg-white/10 text-slate-300 text-xs font-semibold">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-accent to-brand-cyan text-brand-deep font-bold text-xs btn-glow">
+                        Publish Message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 glass-card px-4 py-3 rounded-2xl border border-brand-accent/40 text-brand-accent font-medium text-xs shadow-lg flex items-center space-x-2 translate-y-20 opacity-0 transition-all duration-300">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Action completed!</span>
+    </div>
+
+    <!-- JavaScript Engine -->
+    <script>
+        // --- QUOTES DATA FOR SPECIALPROJECTS_IRE ---
+        const initialQuotes = [
+            {
+                id: 1,
+                text: "Welcome to specialprojects_ire — Innovating the future, Renovating standard models, and Educating tomorrow's leaders.",
+                author: "specialprojects_ire Team",
+                role: "Founding Charter Statement",
+                category: "Inception & Vision"
+            },
+            {
+                id: 2,
+                text: "With a passionate team of 7+ members and over 1 Million project ideas, our journey begins today!",
+                author: "Founding Directorate",
+                role: "Executive Leadership",
+                category: "Inception & Vision"
+            },
+            {
+                id: 3,
+                text: "Innovation is not just about creating something new; it is about solving real-world challenges with relentless ingenuity.",
+                author: "Innovation Core",
+                role: "Special Projects Division",
+                category: "Innovate"
+            },
+            {
+                id: 4,
+                text: "Renovation means breathing fresh energy into existing frameworks, making them smarter, faster, and more resilient.",
+                author: "Systems Architecture",
+                role: "Renovation Unit",
+                category: "Renovate"
+            },
+            {
+                id: 5,
+                text: "Education empowers continuous transformation. When we teach and mentor each other, our collective capability grows exponentially.",
+                author: "Learning & Culture",
+                role: "Education Guild",
+                category: "Educate"
+            },
+            {
+                id: 6,
+                text: "A new chapter of innovation starts today! Together as specialprojects_ire, there are no limits to what we can construct.",
+                author: "Engineering Guild",
+                role: "Founding Team",
+                category: "Team Spirit"
+            },
+            {
+                id: 7,
+                text: "One million ideas begin with a single bold execution. Every project we undertake shapes tomorrow.",
+                author: "Strategy & Operations",
+                role: "specialprojects_ire",
+                category: "Inception & Vision"
+            },
+            {
+                id: 8,
+                text: "To renovate is to respect the foundation while daring to build higher than ever before.",
+                author: "Design & UX Chapter",
+                role: "Renovation Specialists",
+                category: "Renovate"
+            },
+            {
+                id: 9,
+                text: "The greatest gift a company can give its team is room to experiment, learn, and educate one another.",
+                author: "People & Growth",
+                role: "specialprojects_ire",
+                category: "Educate"
+            }
+        ];
+
+        let quotesList = [...initialQuotes];
+        let activeCategory = 'All';
+        let searchQuery = '';
+
+        // --- WEB AUDIO API: RICH FESTIVE SYNTH-BRASS & MARIMBA CELEBRATION MUSIC ---
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let musicInterval = null;
+        let stepIndex = 0;
+
+        // F Vibrant Celebration Pentatonic Scale Frequencies
+        const scale = {
+            'C4': 261.63, 'D4': 293.66, 'F4': 349.23, 'G4': 392.00, 'A4': 440.00,
+            'C5': 523.25, 'D5': 587.33, 'F5': 698.46, 'G5': 783.99, 'A5': 880.00
+        };
+
+        // Festive melody and accompaniment patterns
+        const festiveMelody = ['F4', 'A4', 'C5', 'F5', 'D5', 'C5', 'A4', 'C5', 'F5', 'G5', 'A5', 'F5', 'C5', 'D5', 'F5', 'C5'];
+        const marimbaArp = ['C5', 'F5', 'A5', 'C5', 'D5', 'F5', 'A5', 'F5'];
+        const brassChords = [
+            ['F4', 'A4', 'C5'],
+            ['D4', 'F4', 'A4'],
+            ['Bb4', 'D5', 'F5'],
+            ['C4', 'G4', 'C5']
+        ];
+
+        function playTone(freq, duration, type = 'sine', gainVal = 0.1, detune = 0) {
+            if (!audioCtx || !isMusicPlaying) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                if (detune) osc.detune.setValueAtTime(detune, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function playCelebrationStep() {
+            if (!isMusicPlaying) return;
+
+            // 1. Festive Lead Synth Brass Melody
+            const note = festiveMelody[stepIndex % festiveMelody.length];
+            if (scale[note]) {
+                playTone(scale[note], 0.35, 'sawtooth', 0.1, 5);
+                playTone(scale[note], 0.35, 'triangle', 0.1, -5);
+            }
+
+            // 2. Marimba Pluck Rhythm
+            const arpNote = marimbaArp[stepIndex % marimbaArp.length];
+            if (scale[arpNote]) {
+                playTone(scale[arpNote], 0.18, 'sine', 0.12);
+            }
+
+            // 3. Brass Backing Chords (every 4 steps)
+            if (stepIndex % 4 === 0) {
+                const chord = brassChords[(stepIndex / 4) % brassChords.length];
+                chord.forEach(n => {
+                    if (scale[n]) {
+                        playTone(scale[n], 0.6, 'sawtooth', 0.04);
+                    }
+                });
+            }
+
+            stepIndex++;
+        }
+
+        function initAudioEngine() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function startMusic() {
+            initAudioEngine();
+            if (isMusicPlaying) return;
+
+            isMusicPlaying = true;
+            musicInterval = setInterval(playCelebrationStep, 150); // Uplifting ~200 BPM
+
+            const musicBtn = document.getElementById('musicToggleBtn');
+            const musicIcon = document.getElementById('musicIcon');
+            const musicText = document.getElementById('musicText');
+
+            if (musicIcon) musicIcon.className = 'fa-solid fa-volume-high text-brand-accent animate-pulse';
+            if (musicText) musicText.innerText = 'Celebration Audio';
+            if (musicBtn) musicBtn.classList.add('border-brand-accent/40', 'bg-brand-accent/10');
+        }
+
+        function toggleMusic(userClick = false) {
+            initAudioEngine();
+            const musicBtn = document.getElementById('musicToggleBtn');
+            const musicIcon = document.getElementById('musicIcon');
+            const musicText = document.getElementById('musicText');
+
+            if (!isMusicPlaying) {
+                startMusic();
+                if (userClick) showToast('Celebration Music Playing 🎵');
+            } else {
+                isMusicPlaying = false;
+                if (musicInterval) clearInterval(musicInterval);
+
+                musicIcon.className = 'fa-solid fa-volume-xmark text-slate-400';
+                musicText.innerText = 'Audio Muted';
+                musicBtn.classList.remove('border-brand-accent/40', 'bg-brand-accent/10');
+                if (userClick) showToast('Audio Muted 🔇');
+            }
+        }
+
+        // Auto-resume Audio on initial user interaction (complying with modern browsers)
+        function setupAutoplayUnlock() {
+            const unlockHandler = () => {
+                initAudioEngine();
+                if (!isMusicPlaying) {
+                    startMusic();
+                }
+                document.removeEventListener('click', unlockHandler);
+                document.removeEventListener('touchstart', unlockHandler);
+                document.removeEventListener('keydown', unlockHandler);
+            };
+
+            document.addEventListener('click', unlockHandler);
+            document.addEventListener('touchstart', unlockHandler);
+            document.addEventListener('keydown', unlockHandler);
+
+            // Immediate attempt
+            try {
+                startMusic();
+            } catch(e) {}
+        }
+
+        // --- RENDER QUOTES & CATEGORY FILTERS ---
+        function renderQuotes() {
+            const grid = document.getElementById('quotesGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            const filtered = quotesList.filter(q => {
+                const matchesCategory = activeCategory === 'All' || q.category === activeCategory;
+                const matchesSearch = q.text.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                     q.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                     (q.role && q.role.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(q => `
+                <div class="glass-card rounded-2xl p-5 flex flex-col justify-between glow-border transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-brand-navy border border-white/10 text-brand-accent">
+                                ${q.category}
+                            </span>
+                            <button onclick="copyQuote('${encodeURIComponent(q.text)}', '${encodeURIComponent(q.author)}')" class="text-slate-400 hover:text-white text-xs transition-colors" title="Copy Quote">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs leading-relaxed text-slate-200 font-normal italic mb-5">
+                            "${q.text}"
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-white/5 flex items-center justify-between">
+                        <div>
+                            <h5 class="text-xs font-bold text-white">${q.author}</h5>
+                            <p class="text-[10px] text-slate-400">${q.role || 'specialprojects_ire Team'}</p>
+                        </div>
+                        <i class="fa-solid fa-sparkles text-brand-accent/30 text-xs"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            activeCategory = category;
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                const btnText = btn.innerText.trim();
+                if (btnText === category || (category === 'All' && btnText.includes('All Launch Quotes'))) {
+                    btn.className = 'filter-btn active-filter px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card bg-brand-accent/20 border-brand-accent text-brand-accent';
+                } else {
+                    btn.className = 'filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all glass-card text-slate-300 hover:text-white';
+                }
+            });
+            renderQuotes();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            renderQuotes();
+        }
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotesList.length);
+            const quote = quotesList[randomIndex];
+
+            const textEl = document.getElementById('spotlightText');
+            const authorEl = document.getElementById('spotlightAuthor');
+            const roleEl = document.getElementById('spotlightRole');
+            const catEl = document.getElementById('spotlightCategory');
+            const container = document.getElementById('spotlightContainer');
+
+            container.style.opacity = '0';
+            setTimeout(() => {
+                textEl.innerText = `"${quote.text}"`;
+                authorEl.innerText = quote.author;
+                roleEl.innerText = quote.role || 'specialprojects_ire';
+                catEl.innerText = quote.category;
+                container.style.opacity = '1';
+            }, 180);
+
+            triggerFireworksBurst();
+        }
+
+        function copyQuote(text, author) {
+            const full = `"${decodeURIComponent(text)}" - ${decodeURIComponent(author)}`;
+            copyToClipboard(full);
+        }
+
+        function copySpotlightQuote() {
+            const text = document.getElementById('spotlightText').innerText;
+            const author = document.getElementById('spotlightAuthor').innerText;
+            copyToClipboard(`${text} - ${author}`);
+        }
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Quote copied to clipboard! 📋');
+        }
+
+        // --- MODAL HANDLERS ---
+        function openModal() {
+            const modal = document.getElementById('quoteModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.children[0].classList.remove('scale-95');
+                modal.children[0].classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('quoteModal');
+            modal.classList.add('opacity-0');
+            modal.children[0].classList.remove('scale-100');
+            modal.children[0].classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function submitQuote(e) {
+            e.preventDefault();
+            const text = document.getElementById('modalText').value;
+            const author = document.getElementById('modalAuthor').value;
+            const role = document.getElementById('modalRole').value;
+            const category = document.getElementById('modalCategory').value;
+
+            const newQuote = {
+                id: Date.now(),
+                text,
+                author,
+                role: role || 'specialprojects_ire Contributor',
+                category
+            };
+
+            quotesList.unshift(newQuote);
+            renderQuotes();
+            closeModal();
+            document.getElementById('addQuoteForm').reset();
+            showToast('Launch message posted! 🚀');
+            triggerFireworksBurst();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // --- COUNTER ANIMATION (7+ Team Members) ---
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 1200;
+                const increment = target / (duration / 16);
+
+                let current = 0;
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // --- CANVAS FIREWORKS ENGINE ---
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 7 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.friction = 0.95;
+                this.gravity = 0.12;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.015;
+                this.size = Math.random() * 3.5 + 1;
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class Firework {
+            constructor(startX, startY, targetX, targetY) {
+                this.x = startX;
+                this.y = startY;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.distanceToTarget = Math.hypot(targetX - startX, targetY - startY);
+                this.coordinates = [];
+                this.coordinateCount = 3;
+                while (this.coordinateCount--) {
+                    this.coordinates.push([this.x, this.y]);
+                }
+                this.angle = Math.atan2(targetY - startY, targetX - startX);
+                this.speed = 8;
+                this.acceleration = 1.025;
+                const colors = ['#00f5d4', '#3a86ff', '#7300ff', '#ff007f', '#ffbe0b', '#ffffff'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update(index, fireworksArray, particlesArray) {
+                this.coordinates.pop();
+                this.coordinates.unshift([this.x, this.y]);
+
+                this.speed *= this.acceleration;
+                const vx = Math.cos(this.angle) * this.speed;
+                const vy = Math.sin(this.angle) * this.speed;
+
+                if (Math.hypot(this.targetX - this.x, this.targetY - this.y) <= this.speed) {
+                    createExplosion(this.targetX, this.targetY, this.color, particlesArray);
+                    fireworksArray.splice(index, 1);
+                } else {
+                    this.x += vx;
+                    this.y += vy;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+                ctx.lineTo(this.x, this.y);
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        let fireworks = [];
+        let particles = [];
+
+        function createExplosion(x, y, color, particlesArray) {
+            const particleCount = 75;
+            for (let i = 0; i < particleCount; i++) {
+                particlesArray.push(new Particle(x, y, color));
+            }
+        }
+
+        function triggerFireworksBurst() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const startX = width / 2 + (Math.random() - 0.5) * (width * 0.4);
+                    const startY = height;
+                    const targetX = width * 0.15 + Math.random() * (width * 0.7);
+                    const targetY = height * 0.1 + Math.random() * (height * 0.45);
+                    fireworks.push(new Firework(startX, startY, targetX, targetY));
+                }, i * 150);
+            }
+        }
+
+        function animateCanvas() {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(5, 11, 24, 0.2)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.globalCompositeOperation = 'lighter';
+
+            let i = fireworks.length;
+            while (i--) {
+                fireworks[i].draw();
+                fireworks[i].update(i, fireworks, particles);
+            }
+
+            let j = particles.length;
+            while (j--) {
+                particles[j].draw();
+                particles[j].update();
+                if (particles[j].alpha <= 0) {
+                    particles.splice(j, 1);
+                }
+            }
+
+            // Automatic ambient fireworks background loop
+            if (Math.random() < 0.025) {
+                const startX = Math.random() * width;
+                const targetX = width * 0.1 + Math.random() * (width * 0.8);
+                const targetY = height * 0.1 + Math.random() * (height * 0.4);
+                fireworks.push(new Firework(startX, height, targetX, targetY));
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // Direct tap/click firework launch
+        window.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON' || e.target.closest('.glass-card') || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+                return;
+            }
+            fireworks.push(new Firework(width / 2, height, e.clientX, e.clientY));
+        });
+
+        // Initialize App
+        window.onload = function() {
+            renderQuotes();
+            animateCounters();
+            animateCanvas();
+            setupAutoplayUnlock();
+
+            // Launch firework bursts on load
+            setTimeout(triggerFireworksBurst, 300);
+        };
+    </script>
+</body>
+</html>
